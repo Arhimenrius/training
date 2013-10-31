@@ -11,7 +11,7 @@
  * @author awojtys
  */
 class AdminController extends AppController {
-    //put your code here
+    var $layout = 'admin'; 
 }
 
 ?>

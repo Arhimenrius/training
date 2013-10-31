@@ -11,7 +11,13 @@
  * @author awojtys
  */
 class HomeController extends AppController {
+    var $layout = 'home'; 
+    
     public function index()
+    {
+    }
+    
+    public function training()
     {
         
     }
