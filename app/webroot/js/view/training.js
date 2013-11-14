@@ -4,9 +4,9 @@ var TrainingList = Backbone.View.extend({
         var that = this;
         var trainings = new Trainings();
         trainings.fetch({
-            success: function()
+            success: function(trainings)
             {
-                var template = _.template($("#training_list").html(), {} );
+                var template = _.template($("#training_list").html(), {trainings:trainings.models} );
                 that.$el.html(template);
             }
         });

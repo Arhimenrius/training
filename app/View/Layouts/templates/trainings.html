@@ -1,11 +1,40 @@
 <script type="text/template" id="training_list">
   <a href="#/new" class="btn btn-primary">Add training</a>
-  List
+  <h2 class="form-signin-heading">Trainings</h2>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>Name</td>
+            <td>Start date</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <%  _.each(trainings, function(training) { %>
+        <tr>
+        <td><%= training.get('id') %></td>
+        <td><%= training.get('name') %></td>
+        <td><%= training.get('start_date') %></td>
+        <td><button class="btn btn-default">Edit</button></td>
+        <td><button class="btn btn-default">View activities</button></td>
+        <td><button class="btn btn-danger">Delete</button></td>
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
 </script>
 
 <script type="text/template" id="training_add_form">
   <a href="#" class="btn btn-primary">Back</a>
-  Add
+    <form class="add-training form-signin">
+        <legend><h2 class="form-signin-heading">Create new training</h2></legend>
+        <input type="text" name="name" placeholder="Name" class="form-control" />
+        <input type="text" name="start_date" placeholder="Start date" class="form-control dp2" data-date-format="yyyy-mm-dd" /><br />
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Create</button>
+    </form>
 </script>
 
 <script type="text/template" id="training_edit_view">

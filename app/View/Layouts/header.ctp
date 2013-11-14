@@ -38,7 +38,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                     'bootstrap',
                     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js',
                     'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js',
-                    'ownscripts'
+                    'backbone-helpers'
                     ));
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

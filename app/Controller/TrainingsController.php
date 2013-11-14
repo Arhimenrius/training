@@ -35,8 +35,22 @@ class TrainingsController extends AppController {
      */
     public function index()
     {
-        $this->autoRender = false;   
-        return json_encode(true);
+        $this->autoRender = false;
+        $trainings = $this->Training->find('all');
+        if($trainings != null)
+        {
+            foreach($trainings as $key => $training)
+            {
+                $data[$key]['id'] = $training['Training']['id'];
+                $data[$key]['name'] = $training['Training']['name'];
+                $data[$key]['start_date'] = $training['Training']['start_date'];
+            }
+            return json_encode($data);
+        }
+        else
+        {
+            return json_encode(true);
+        }
     }
     
     /**

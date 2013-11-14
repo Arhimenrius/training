@@ -57,12 +57,19 @@ class ProfessionsController extends AppController{
     {
         $this->autoRender = false;
         $professions = $this->Profession->find('all');
-        foreach ($professions as $key => $profession)
+        if($professions != null)
         {
-            $data[$key]['id'] = $profession['Profession']['id'];
-            $data[$key]['name'] = $profession['Profession']['name'];
+            foreach ($professions as $key => $profession)
+            {
+                $data[$key]['id'] = $profession['Profession']['id'];
+                $data[$key]['name'] = $profession['Profession']['name'];
+            }
+            return json_encode($data);
         }
-        return json_encode($data);
+        else
+        {
+            return json_encode(true);
+        }
     }
     
     /**
