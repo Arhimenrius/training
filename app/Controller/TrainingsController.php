@@ -1,6 +1,14 @@
 <?php
 
-class TrainingsController extends AppController {   
+class TrainingsController extends AppController { 
+    public $uses = array('Training', 'Activities');
+    
+    /**
+     * Method for authorization
+     * 
+     * @param type $user
+     * @return boolean Display logged or unlogged
+     */
     public function isAuthorized($user) {
         // Admin can access every action
         if (isset($user['role']) && $user['role'] === 'admin') 
@@ -11,24 +19,47 @@ class TrainingsController extends AppController {
        // Default deny
        return false;
     }
-    public function add()
-    {
-        
-    }
     
-    public function edit()
-    {
-        
-    }
-    
+    /**
+     * Default page
+     */
     public function viewall()
     {
         
     }
     
-    public function delete()
+    /**
+     * Method return all of trainings
+     * 
+     * @return JSON Return all trainings
+     */
+    public function index()
     {
-        
+        $this->autoRender = false;   
+        return json_encode(true);
+    }
+    
+    /**
+     * Method to add new training to database
+     */
+    public function add()
+    {
+        $this->autoRender = false;
+    }
+    
+    public function view($id)
+    {
+        $this->autoRender = false;
+    }
+    
+    public function edit($id)
+    {
+        $this->autoRender = false;
+    }
+    
+    public function delete($id)
+    {
+        $this->autoRender = false;
     }
     
 }

@@ -34,7 +34,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller 
 {
     public $helpers = array('Html', 'Form', 'Session');
-    public $components = array('Session', 
+    public $components = array('RequestHandler', 'Session', 
         'Auth' => array(
             'loginAction' => array(
                 'controller' => 'auths',

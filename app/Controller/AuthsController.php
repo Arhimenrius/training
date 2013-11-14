@@ -12,6 +12,9 @@
  */
 class AuthsController extends AppController {
     var $uses = array('Admin');
+    /**
+     * Function for give allow for users to auth actions
+     */
     public function beforeFilter() 
     {
         $this->Auth->deny('login');
@@ -24,7 +27,9 @@ class AuthsController extends AppController {
         }
         
     }
-    
+    /**
+     * Function for give allow for users to auth actions
+     */
     public function isAuthorized($user) {
         // Admin can access every action
         if (isset($user['role']) && $user['role'] === 'admin') 

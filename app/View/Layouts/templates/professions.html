@@ -1,0 +1,36 @@
+    <script type="text/template" id="profession_list">
+    <a href="#/new"><button class="btn btn-primary">Create profession</button></a>
+    <h2 class="form-signin-heading">Professions</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(professions, function(profession) { %>
+                <tr>
+                    <td><%= profession.get('id') %></td>
+                    <td><%= profession.get('name') %></td>
+                    <td><a href="#/edit/<%= profession.id %>" class="btn btn-default">Edit</a></td>
+                    <td><button id="<%= profession.id %>" class="btn btn-danger">Delete</button></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="profession_form">
+<a href="#"><button class="btn btn-primary">Back</button></a>
+<form class="prepare-profession form-signin">
+    <legend><h2 class="form-signin-heading"><%= profession ? 'Edit' : 'Create' %> profession</h2></legend>
+    <input type="text" class="form-control" placeholder="Profession" name="name" maxlength="50" required="required" value="<%= profession ? profession.get('name') : '' %>" /><br />
+    <% if(profession){ %>
+        <input type="hidden" name="id" value="<%= profession.id %>" />
+    <% } %>
+    <button type="submit" class="btn btn-lg btn-primary btn-block"><%= profession ? 'Update' : 'Create' %></button>
+</form>
+</script>
