@@ -1,6 +1,8 @@
     <script type="text/template" id="profession_list">
     <a href="#/new"><button class="btn btn-primary">Create profession</button></a>
     <h2 class="form-signin-heading">Professions</h2>
+    <% if(empty==false) 
+    { %>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,6 +23,11 @@
             <% }); %>
         </tbody>
     </table>
+    <% }
+    else
+    {%>
+        <h2>There is no profession to print</h2>
+    <%}%>
 </script>
 
 <script type="text/template" id="profession_form">

@@ -68,7 +68,7 @@ class ProfessionsController extends AppController{
         }
         else
         {
-            return json_encode(true);
+            exit;
         }
     }
     

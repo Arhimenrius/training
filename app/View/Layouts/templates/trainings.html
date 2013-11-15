@@ -1,6 +1,8 @@
 <script type="text/template" id="training_list">
   <a href="#/new" class="btn btn-primary">Add training</a>
   <h2 class="form-signin-heading">Trainings</h2>
+  <% if(empty == false)
+  { %>
   <table class="table table-striped">
     <thead>
         <tr>
@@ -18,23 +20,132 @@
         <td><%= training.get('id') %></td>
         <td><%= training.get('name') %></td>
         <td><%= training.get('start_date') %></td>
-        <td><button class="btn btn-default">Edit</button></td>
+        <td><a href="#/edit/<%= training.get('id') %>"><button class="btn btn-default">Edit</button><a/></td>
         <td><button class="btn btn-default">View activities</button></td>
-        <td><button class="btn btn-danger">Delete</button></td>
+        <td><button id="<%= training.get('id') %>" class="btn btn-danger">Delete</button></td>
         </tr>
         <% }); %>
     </tbody>
   </table>
+  <% }
+    else
+    {%>
+        <h2>There is no trainings to print</h2>
+    <%}%>
 </script>
 
 <script type="text/template" id="training_add_form">
   <a href="#" class="btn btn-primary">Back</a>
     <form class="add-training form-signin">
         <legend><h2 class="form-signin-heading">Create new training</h2></legend>
-        <input type="text" name="name" placeholder="Name" class="form-control" />
-        <input type="text" name="start_date" placeholder="Start date" class="form-control dp2" data-date-format="yyyy-mm-dd" /><br />
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Create</button>
+        <input type="text" maxLength="255" name="name" placeholder="Name" class="form-control" />
+        <input type="text" name="start_date" placeholder="Start date" class="form-control" id="datepick"/><br />
+        <button type="submit" class="btn btn-primary btn-lg btn-block" >Create</button>
     </form>
+    <script type="text/javascript">
+
+        new datepickr('datepick', {
+                'dateFormat': 'Y-m-d'
+        });
+    </script>
+    <style type="text/css">
+        .calendar {
+	font-family: 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+	font-size: 0.9em;
+	background-color: #EEE;
+	color: #333;
+	border: 1px solid #DDD;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 0.2em;
+	max-width: 24em;
+        }
+
+        .calendar .months {
+                background-color: #F6AF3A;
+                border: 1px solid #E78F08;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                color: #FFF;
+                padding: 0.2em;
+                text-align: center;
+        }
+
+        .calendar .prev-month,
+        .calendar .next-month {
+                padding: 0;
+        }
+
+        .calendar .prev-month {
+                float: left;
+        }
+
+        .calendar .next-month {
+                float: right;
+        }
+
+        .calendar .current-month {
+                margin: 0 auto;
+        }
+
+        .calendar .months .prev-month,
+        .calendar .months .next-month {
+                color: #FFF;
+                text-decoration: none;
+                padding: 0 0.4em;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        .calendar .months .prev-month:hover,
+        .calendar .months .next-month:hover {
+                background-color: #FDF5CE;
+                color: #C77405;
+        }
+
+        .calendar table {
+                border-collapse: collapse;
+                padding: 0;
+                font-size: 0.8em;
+                width: 100%;
+        }
+
+        .calendar th {
+                text-align: center;
+        }
+
+        .calendar td {
+                text-align: right;
+                padding: 1px;
+                width: 14.3%;
+        }
+
+        .calendar td span {
+                display: block;
+                color: #1C94C4;
+                background-color: #F6F6F6;
+                border: 1px solid #CCC;
+                text-decoration: none;
+                padding: 0.2em;
+                cursor: pointer;
+        }
+
+        .calendar td span:hover {
+                color: #C77405;
+                background-color: #FDF5CE;
+                border: 1px solid #FBCB09;
+        }
+
+        .calendar td.today span {
+                background-color: #FFF0A5;
+                border: 1px solid #FED22F;
+                color: #363636;
+        }
+    </style>
 </script>
 
 <script type="text/template" id="training_edit_view">

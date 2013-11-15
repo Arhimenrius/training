@@ -1,3 +1,3 @@
-var Activities = Backbone.Model.extend({
-    urlRoot: '/activitiess'
+var Activity = Backbone.Model.extend({
+    urlRoot: '/activities'
 });

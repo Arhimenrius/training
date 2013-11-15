@@ -6,11 +6,11 @@
  */
 
 /**
- * Description of Whois
+ * Description of Record
  *
  * @author awojtys
  */
-class Whois extends AppModel{
+class Record extends AppModel{
     //put your code here
 }
 

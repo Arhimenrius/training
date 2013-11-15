@@ -1,7 +1,7 @@
 <?php
 
 class TrainingsController extends AppController { 
-    public $uses = array('Training', 'Activities');
+    public $uses = array('Training', 'Activity');
     
     /**
      * Method for authorization
@@ -49,7 +49,7 @@ class TrainingsController extends AppController {
         }
         else
         {
-            return json_encode(true);
+            exit;
         }
     }
     
@@ -59,6 +59,31 @@ class TrainingsController extends AppController {
     public function add()
     {
         $this->autoRender = false;
+        $this->Training->create();
+        $date = strtotime($this->request->data['start_date']);
+        if($this->Training->save($this->request->data)){
+            $this->Activity->saveAll(
+                    array(
+                        array(
+                            'training_id' => $this->Training->id,
+                            'availability' => 15,
+                            'date' => date('Y-m-d', $date)
+                        ), 
+                        array(
+                            'training_id' => $this->Training->id,
+                            'availability' => 15,
+                            'date' => date('Y-m-d', $date+86400)
+                        ), 
+                        array(
+                            'training_id' => $this->Training->id,
+                            'availability' => 15,
+                            'date' => date('Y-m-d', $date+172800)
+            )));
+            return json_encode($this->Training->id);
+        }
+        else{
+            exit;
+        }
     }
     
     public function view($id)
@@ -74,6 +99,14 @@ class TrainingsController extends AppController {
     public function delete($id)
     {
         $this->autoRender = false;
+        if($this->Training->delete($id))
+        {
+            return json_encode(true);
+        }
+        else
+        {
+            return json_encode(false);
+        }
     }
     
 }

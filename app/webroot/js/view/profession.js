@@ -43,7 +43,11 @@ var ProfessionList = Backbone.View.extend({
         var professions = new Professions();
         professions.fetch({
             success: function(professions){
-                var template = _.template($("#profession_list").html(), {professions: professions.models} );
+                var template = _.template($("#profession_list").html(), {professions: professions.models, empty: false} );
+                that.$el.html(template);
+            },
+            error: function(){
+                var template = _.template($("#profession_list").html(), {professions: null, empty: true} );
                 that.$el.html(template);
             }
         });
@@ -62,7 +66,7 @@ var ProfessionList = Backbone.View.extend({
                 success: function()
                 {
                     Backbone.history.loadUrl();
-                    return false
+                    return false;
                 }
             });
         }

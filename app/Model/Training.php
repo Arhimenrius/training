@@ -1,17 +1,9 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+App::uses('AppModel', 'Model');
 /**
- * Description of Training
+ * Training Model
  *
- * @author awojtys
+ * @property Activity $Activity
  */
-class Training extends AppModel{
-    //put your code here
+class Training extends AppModel {
 }
-
-?>

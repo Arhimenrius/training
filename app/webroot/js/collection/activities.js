@@ -1,3 +1,3 @@
-var Activitiess = Backbone.Collection.extend({
-    url: '/activitiess'
+var Activities = Backbone.Collection.extend({
+    url: '/activities'
 });
