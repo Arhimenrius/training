@@ -15,7 +15,7 @@ router.on('route:new', function(){
     trainingNew.render();
 });
 router.on('route:edit', function(id){
-    trainingEdit.render();
+    trainingEdit.render({id:id});
 });
 
 Backbone.history.start();

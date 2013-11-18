@@ -10,7 +10,7 @@
     <h3 class="form-signin-register"><?php 
     if($register == true)
     {
-        echo $this->Html->link('Konto administratora nie istnieje. Stwórz je!', array('controller' => 'auths', 'action' => 'register')); 
+        echo $this->Html->link('Admin account does not exist. Create it!', array('controller' => 'auths', 'action' => 'register')); 
     }
     ?></h3>
 </div>

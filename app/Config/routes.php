@@ -27,6 +27,7 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 	Router::connect('/', array('controller' => 'homes', 'action' => 'index', 'home'));
+        Router::connect('/auths', array('controller' => 'auths', 'action' => 'login'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

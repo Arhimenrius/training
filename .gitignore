@@ -9,7 +9,6 @@
 /dist
 /tags
 /nbproject
-/lib
 
 # OS generated files #
 ######################
@@ -22,4 +21,3 @@ Icon?
 ehthumbs.db
 Thumbs.db
 /nbproject
-/lib

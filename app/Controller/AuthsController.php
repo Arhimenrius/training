@@ -23,7 +23,7 @@ class AuthsController extends AppController {
         
         if($this->Auth->user('id') != null && $this->action == 'login')
         {
-            $this->redirect('/admins');
+            $this->redirect('/trainings');
         }
         
     }

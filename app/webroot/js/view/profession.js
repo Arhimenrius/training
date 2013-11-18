@@ -28,6 +28,10 @@ var ProfessionForm = Backbone.View.extend({
         profession.save(professionDetails, {
             success: function (response) {
                 router.navigate("",  {trigger: true});
+            },
+            error: function()
+            {
+                displayError();
             }
         });
         return false;

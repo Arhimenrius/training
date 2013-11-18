@@ -40,7 +40,7 @@ class AppController extends Controller
                 'controller' => 'auths',
                 'action' => 'login',
             ),
-            'loginRedirect' => array('controller' => 'admins', 'action' => 'index'),
+            'loginRedirect' => array('controller' => 'trainings', 'action' => 'viewall'),
             'logoutRedirect' => array('controller' => 'homes', 'action' => 'index'),
             'authorize' => array('Controller'),
             'authenticate' => array(

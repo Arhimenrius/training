@@ -38,7 +38,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                     'bootstrap',
                     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js',
                     'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js',
-                    'backbone-helpers'
+                    'backbone-helpers',
+                    'ownscripts'
                     ));
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -56,14 +57,16 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                 <?php if($this->Session->read('Auth.User') != null)
                 {
                     ?>
-                    <li><?php echo $this->Html->link('Szkolenia', array('controller' => 'trainings', 'action' => 'viewall')); ?></li>
-                    <li><?php echo $this->Html->link('Zawód uczestników', array('controller' => 'professions', 'action' => 'viewall')); ?></li>
-                    <li><?php echo $this->Html->link('Oferowane materiały', array('controller' => 'trainings', 'action' => 'add')); ?></li>
+                    <li><?php echo $this->Html->link('Trainings', array('controller' => 'trainings', 'action' => 'viewall')); ?></li>
+                    <li><?php echo $this->Html->link('Professions', array('controller' => 'professions', 'action' => 'viewall')); ?></li>
+                    <li><?php echo $this->Html->link('Materials', array('controller' => 'materials', 'action' => 'viewall')); ?></li>
+                    <li><?php echo $this->Html->link('Payments', array('controller' => 'payments', 'action' => 'viewall')); ?></li>
+                    <li><a href="#">|</a></li>
                     <?php
                 }
                 ?>
-                <li><?php echo $this->Html->link('Zapisy na szkolenia', array('controller' => 'records', 'action' => 'viewall')); ?></li>
-                <li><?php echo $this->Html->link('Kontakt', array('controller' => 'homes', 'action' => 'contact')); ?></li>
+                <li><?php echo $this->Html->link('Record for trainings', array('controller' => 'records', 'action' => 'viewall')); ?></li>
+                <li><?php echo $this->Html->link('Contact', array('controller' => 'homes', 'action' => 'contact')); ?></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if($this->Session->read('Auth.User') == null)

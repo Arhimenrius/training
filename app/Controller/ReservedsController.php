@@ -28,7 +28,27 @@ class ReservedsController extends AppController
         
     }
     
-    public function viewdetails($training_id)
+    public function index()
+    {
+        
+    }
+    
+    public function add()
+    {
+        
+    }
+    
+    public function edit($id)
+    {
+        
+    }
+    
+    public function delete($id)
+    {
+        
+    }
+    
+    public function view($id)
     {
         
     }

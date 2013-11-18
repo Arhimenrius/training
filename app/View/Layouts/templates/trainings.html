@@ -17,7 +17,7 @@
     <tbody>
         <% _.each(trainings, function(training) { %>
         <tr>
-            <td><%= training.get('id') %><%= training.get('Activity')[1].id %></td>
+            <td><%= training.get('id') %></td>
             <td><%= training.get('name') %></td>
             <td><%= training.get('start_date') %></td>
             <td><a href="#/edit/<%= training.get('id') %>"><button class="btn btn-default">Edit</button><a/></td>
@@ -41,7 +41,7 @@
                 <% _.each(training.get('Activity'), function(activity){  %>
                 <tr>
                     <td><%= activity.name %></td>
-                    <td><%= activity.availability %></td>
+                    <td><%= activity.avaibility %></td>
                     <td><%= activity.date %></td>
                     <td><%= activity.time_start %></td>
                     <td><%= activity.time_end %></td>
@@ -64,8 +64,8 @@
   <a href="#" class="btn btn-primary">Back</a>
     <form class="add-training form-signin">
         <legend><h2 class="form-signin-heading">Create new training</h2></legend>
-        <input type="text" maxLength="255" name="name" placeholder="Name" class="form-control" />
-        <input type="text" name="start_date" placeholder="Start date" class="form-control" id="datepick"/><br />
+        <input type="text" maxLength="255" required name="name" placeholder="Name" class="form-control" />
+        <input type="text" name="start_date" required placeholder="Start date" class="form-control" id="datepick"/><br />
         <button type="submit" class="btn btn-primary btn-lg btn-block" >Create</button>
     </form>
     <script type="text/javascript">
@@ -176,5 +176,189 @@
 
 <script type="text/template" id="training_edit_view">
   <a href="#" class="btn btn-primary">Back</a>
-  Edit
+  <% if(error != false) { %>
+  <%= error %>
+  <% }else{ %>
+  <form class="edit-training">
+  <input type="hidden" name="id" value="<%= training.get('id') %>" />
+    <table class="table">
+        <legend><h2 class="form-signin-heading">Edit <%= training.get('name') %></h2></legend>
+        <tr>
+            <td colspan="3"><input type="text" required maxLength="255" required name="training_name" placeholder="Name" value="<%= training.get('name') %>" class="form-control" />
+            <td colspan="2"><input type="text" required name="training_start_date" required placeholder="Start date"value="<%= training.get('start_date') %>" class="form-control" id="datepick"/><br />
+        </tr>
+            <tr>
+            <td>Name</td>
+            <td>Avaibility</td>
+            <td>Date</td>
+            <td>Start time</td>
+            <td>End time</td>
+        </tr>
+        <tbody>
+        <% var i=1; _.each(training.get('activity'), function(activity){ %>
+            <tr>
+                <td><input type="hidden" name="activity_id" value="<%= activity.id %>" /><input type="text" maxLength="255" class="form-control" name="name" value="<%= activity.name %>" /></td>
+                <td><%= activity.avaibility %></td>
+                <td><%= activity.date %></td>
+                <td><div class="input-append bootstrap-timepicker"><input type="text" id="timepick_start_<%= i %>" class="form-control" name="time_start" value="<%= activity.time_start %>"/></td>
+                <td><div class="input-append bootstrap-timepicker"><input type="text" id="timepick_end_<%= i %>" class="form-control" name="time_end" value="<%= activity.time_end %>"/></td>
+            </tr>
+        <% i++; }) %>
+        </tbody>
+        <tr>
+            <td></td>
+            <td colspan="3"><button type="submit" class="btn btn-primary btn-lg btn-block" >Save</button></td>
+            <td></td>
+        </tr>
+    </table>
+    </form>
+  <% } %>
+  
+  <script type="text/javascript">
+
+        new datepickr('datepick', {
+                'dateFormat': 'Y-m-d'
+        });
+        for(i=1; i<4; i++)
+        {
+            $("#timepick_start_"+i).timePicker({
+            startTime: "00:00", // Using string. Can take string or Date object.
+            endTime: "23:50", // Using Date object here.
+            show24Hours: true,
+            step: 10});
+            $("#timepick_end_"+i).timePicker({
+            startTime: "00:00", // Using string. Can take string or Date object.
+            endTime: "23:50", // Using Date object here.
+            show24Hours: true,
+            step: 10});
+        }
+    </script>
+    <style type="text/css">
+        div.time-picker {
+            position: absolute;
+            height: 191px;
+            width:5em; /* needed for IE */
+            overflow: auto;
+            background: #fff;
+            border: 1px solid #aaa;
+            z-index: 99;
+            margin: 0;
+          }
+          div.time-picker-12hours {
+            width:6em; /* needed for IE */
+          }
+
+          div.time-picker ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+          }
+          div.time-picker li {
+            cursor: pointer;
+            height: 20px;
+            font: 12px/1 Helvetica, Arial, sans-serif;
+            padding: 4px 3px;
+          }
+          div.time-picker li.selected {
+            background: #0063CE;
+            color: #fff;
+          }
+        
+        .calendar {
+	font-family: 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+	font-size: 0.9em;
+	background-color: #EEE;
+	color: #333;
+	border: 1px solid #DDD;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 0.2em;
+	max-width: 24em;
+        }
+
+        .calendar .months {
+                background-color: #F6AF3A;
+                border: 1px solid #E78F08;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                color: #FFF;
+                padding: 0.2em;
+                text-align: center;
+        }
+
+        .calendar .prev-month,
+        .calendar .next-month {
+                padding: 0;
+        }
+
+        .calendar .prev-month {
+                float: left;
+        }
+
+        .calendar .next-month {
+                float: right;
+        }
+
+        .calendar .current-month {
+                margin: 0 auto;
+        }
+
+        .calendar .months .prev-month,
+        .calendar .months .next-month {
+                color: #FFF;
+                text-decoration: none;
+                padding: 0 0.4em;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border-radius: 4px;
+                cursor: pointer;
+        }
+
+        .calendar .months .prev-month:hover,
+        .calendar .months .next-month:hover {
+                background-color: #FDF5CE;
+                color: #C77405;
+        }
+
+        .calendar table {
+                border-collapse: collapse;
+                padding: 0;
+                font-size: 0.8em;
+                width: 100%;
+        }
+
+        .calendar th {
+                text-align: center;
+        }
+
+        .calendar td {
+                text-align: right;
+                padding: 1px;
+                width: 14.3%;
+        }
+
+        .calendar td span {
+                display: block;
+                color: #1C94C4;
+                background-color: #F6F6F6;
+                border: 1px solid #CCC;
+                text-decoration: none;
+                padding: 0.2em;
+                cursor: pointer;
+        }
+
+        .calendar td span:hover {
+                color: #C77405;
+                background-color: #FDF5CE;
+                border: 1px solid #FBCB09;
+        }
+
+        .calendar td.today span {
+                background-color: #FFF0A5;
+                border: 1px solid #FED22F;
+                color: #363636;
+        }
+    </style>
 </script>

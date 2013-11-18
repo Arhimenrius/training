@@ -1,5 +1,6 @@
 <?php
 
+App::uses('TrainingHelper', 'Lib');
 class TrainingsController extends AppController { 
     public $uses = array('Training', 'Activity');
     
@@ -65,17 +66,17 @@ class TrainingsController extends AppController {
                     array(
                         array(
                             'training_id' => $this->Training->id,
-                            'availability' => 15,
+                            'avaibility' => 15,
                             'date' => date('Y-m-d', $date)
                         ), 
                         array(
                             'training_id' => $this->Training->id,
-                            'availability' => 15,
+                            'avaibility' => 15,
                             'date' => date('Y-m-d', $date+86400)
                         ), 
                         array(
                             'training_id' => $this->Training->id,
-                            'availability' => 15,
+                            'avaibility' => 15,
                             'date' => date('Y-m-d', $date+172800)
             )));
             return json_encode($this->Training->id);
@@ -88,19 +89,44 @@ class TrainingsController extends AppController {
     public function view($id)
     {
         $this->autoRender = false;
+        $training = $this->Training->findById($id);
+        if($training != null)
+        {
+            $data['id'] = $training['Training']['id'];
+            $data['name'] = $training['Training']['name'];
+            $data['start_date'] = $training['Training']['start_date'];
+            $data['active'] = $training['Training']['active'];
+            $data['activity'] = $training['Activity'];
+            return json_encode($data);
+        }
+        else
+        {
+            exit;
+        }
     }
     
     public function edit($id)
     {
         $this->autoRender = false;
-        $training = $this->Training->findById($id);
-        
-        $this->Training->id = $id;
-        if($this->Training->save($this->request->data)){
-            return json_encode(true);
+        if(array_key_exists('training_name', $this->request->data))
+        {
+            $training = $this->Training->findById($id);
+            $prepare = new TrainingHelper($this->request->data);
+            $data = $prepare->returnArray();
+            if($this->Training->saveAll($data)){
+                return json_encode(true);
+            }
+            else{
+                exit;
+            }
         }
-        else{
-            exit;
+        else {
+            if($this->Training->save($this->request->data)){
+                   return json_encode(true);
+            }
+            else{
+                exit;
+            }
         }
         
         if (!$this->request->data) {

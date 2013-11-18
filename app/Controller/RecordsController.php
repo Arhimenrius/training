@@ -11,12 +11,27 @@ class RecordsController extends AppController{
         
     }
     
-    public function save($training_id)
+    public function index()
     {
         
     }
     
-    public function payment($record_id)
+    public function view($id)
+    {
+        
+    }
+    
+    public function edit($id)
+    {
+        
+    }
+    
+    public function delete($id)
+    {
+        
+    }
+    
+    public function add()
     {
         
     }

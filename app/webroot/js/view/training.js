@@ -86,8 +86,12 @@ var TrainingNew = Backbone.View.extend({
         var trainingDetails = $(ev.currentTarget).serializeObject();
         var training = new Training();
         training.save(trainingDetails, {
-            success: function(response){
-                router.navigate("",  {trigger: true});
+            success: function(response, id){
+                router.navigate("/edit/"+id,  {trigger: true});
+            },
+            error: function()
+            {
+                displayError();
             }
         });
         return false;
@@ -96,15 +100,51 @@ var TrainingNew = Backbone.View.extend({
 
 var TrainingEdit = Backbone.View.extend({
     el: $('.page'),
-    render: function()
+    render: function(options)
     {
-        var that = this;
-        var template = _.template($("#training_edit_view").html(), {} );
-        that.$el.html(template);
+        if(options.id > 0)
+        {
+            var that = this;
+            var training = new Training({id:options.id});
+            training.fetch({
+                success: function(training)
+                {
+                    var template = _.template($("#training_edit_view").html(), {training:training, error:false} );
+                    that.$el.html(template);
+                },
+                error: function()
+                {
+                    var template = _.template($("#training_edit_view").html(), {training:training, error:'This training is not exist.'} );
+                    that.$el.html(template);
+                }
+            });
+        }
+        else
+        {
+            var template = _.template($("#training_edit_view").html(), {training:training, error:'Training ID cannot be null.'} );
+            that.$el.html(template);
+        }
     },
     events:
     {
-
+        'submit .edit-training': 'editTraining',
+    },
+    editTraining: function(ev){
+        var trainingDetails = $(ev.currentTarget).serializeObject();
+        console.log(trainingDetails);
+        var training = new Training();
+        training.save(trainingDetails, {
+            success: function(response)
+            {
+                router.navigate("",  {trigger: true});
+                return false;
+            },
+            error: function()
+            {
+                displayError();
+            }
+        });
+        return false;
     }
 });
 

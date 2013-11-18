@@ -26,7 +26,27 @@ class PaymentsController extends AppController{
         
     }
     
-    public function viewdetail($payment_id)
+    public function index()
+    {
+        
+    }
+    
+    public function add()
+    {
+        
+    }
+    
+    public function edit($id)
+    {
+        
+    }
+    
+    public function delete($id)
+    {
+        
+    }
+    
+    public function view($id)
     {
         
     }

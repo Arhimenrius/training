@@ -3,9 +3,12 @@
 include_once 'header.ctp';
 ?>
             <div id="content">
-                    <?php echo $this->Session->flash(); ?>
                 <div class="container">
+                    <div class="display_error">
+                            
+                    </div>
                     <div class="page">
+                        
                     <?php echo $this->fetch('content'); ?>
                     </div>
                 </div>

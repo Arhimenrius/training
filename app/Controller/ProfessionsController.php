@@ -83,7 +83,6 @@ class ProfessionsController extends AppController{
         $this->autoRender = false;
         $profession = $this->Profession->findById($id);
         
-        $this->Profession->id = $id;
         if($this->Profession->save($this->request->data)){
             return json_encode(true);
         }
