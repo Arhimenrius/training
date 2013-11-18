@@ -13,27 +13,27 @@ class RecordsController extends AppController{
     
     public function index()
     {
-        
+        $this->autoRender = false;
     }
     
     public function view($id)
     {
-        
+        $this->autoRender = false;
     }
     
     public function edit($id)
     {
-        
+        $this->autoRender = false;
     }
     
     public function delete($id)
     {
-        
+        $this->autoRender = false;
     }
     
     public function add()
     {
-        
+        $this->autoRender = false;
     }
 
 }

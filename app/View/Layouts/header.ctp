@@ -72,13 +72,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                 <?php if($this->Session->read('Auth.User') == null)
                     {
                         ?>
-                        <li><?php echo $this->Html->link('Zaloguj', array('controller' => 'auths', 'action' => 'login')); ?></li>
+                        <li><?php echo $this->Html->link('Log in', array('controller' => 'auths', 'action' => 'login')); ?></li>
                         <?php
                     }
                     else
                     {
                         ?>
-                        <li><?php echo $this->Html->link('Wyloguj', array('controller' => 'auths', 'action' => 'logout')); ?></li>
+                        <li><?php echo $this->Html->link('Logout', array('controller' => 'auths', 'action' => 'logout')); ?></li>
                         <?php
                     }
                     ?>
