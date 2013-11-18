@@ -39,11 +39,10 @@ class TrainingsController extends AppController {
         $trainings = $this->Training->find('all');
         if($trainings != null)
         {
-            foreach($trainings as $key => $training)
+            foreach($trainings as $key => $value)
             {
-                $data[$key]['id'] = $training['Training']['id'];
-                $data[$key]['name'] = $training['Training']['name'];
-                $data[$key]['start_date'] = $training['Training']['start_date'];
+                $data[$key] = $value['Training'];
+                $data[$key]['Activity'] = $value['Activity'];
             }
             return json_encode($data);
         }
@@ -94,6 +93,19 @@ class TrainingsController extends AppController {
     public function edit($id)
     {
         $this->autoRender = false;
+        $training = $this->Training->findById($id);
+        
+        $this->Training->id = $id;
+        if($this->Training->save($this->request->data)){
+            return json_encode(true);
+        }
+        else{
+            exit;
+        }
+        
+        if (!$this->request->data) {
+            $this->request->data = $training;
+        }
     }
     
     public function delete($id)

@@ -15,14 +15,40 @@
         </tr>
     </thead>
     <tbody>
-        <%  _.each(trainings, function(training) { %>
+        <% _.each(trainings, function(training) { %>
         <tr>
-        <td><%= training.get('id') %></td>
-        <td><%= training.get('name') %></td>
-        <td><%= training.get('start_date') %></td>
-        <td><a href="#/edit/<%= training.get('id') %>"><button class="btn btn-default">Edit</button><a/></td>
-        <td><button class="btn btn-default">View activities</button></td>
-        <td><button id="<%= training.get('id') %>" class="btn btn-danger">Delete</button></td>
+            <td><%= training.get('id') %><%= training.get('Activity')[1].id %></td>
+            <td><%= training.get('name') %></td>
+            <td><%= training.get('start_date') %></td>
+            <td><a href="#/edit/<%= training.get('id') %>"><button class="btn btn-default">Edit</button><a/></td>
+            <td><button id="<%= training.get('id') %>" class="btn btn-default view-more">View activities</button></td>
+            <td><button id="<%= training.get('id') %>" class="btn btn-danger delete">Delete</button></td>
+            <td><button id="<%= training.get('id') %>" class="btn btn-primary status-change" data-active="<%= training.get('active') %>"><% if(training.get('active') == false) {%> Activate <%}else{%> Deactivate <%}%></button></td>
+        </tr>
+        <tr class="<%= training.get('id') %>" style="display:none">
+            <td colspan="7">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Availability</td>
+                    <td>Date</td>
+                    <td>Start time</td>
+                    <td>End time</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% _.each(training.get('Activity'), function(activity){  %>
+                <tr>
+                    <td><%= activity.name %></td>
+                    <td><%= activity.availability %></td>
+                    <td><%= activity.date %></td>
+                    <td><%= activity.time_start %></td>
+                    <td><%= activity.time_end %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+            </table>
         </tr>
         <% }); %>
     </tbody>

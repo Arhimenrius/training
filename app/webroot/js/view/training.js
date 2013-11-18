@@ -19,7 +19,9 @@ var TrainingList = Backbone.View.extend({
     },
     events:
     {
-        'click .btn-danger': 'deleteTraining',
+        'click .delete': 'deleteTraining',
+        'click .view-more': 'viewMore',
+        'click .status-change': 'activateTraining'
     },
     deleteTraining: function(ev)
     {
@@ -38,7 +40,32 @@ var TrainingList = Backbone.View.extend({
                 });
             }
         }
+    },
+    viewMore: function(ev)
+    {
+        var id = $(ev.target).attr('id');
+        if(($('tr.'+id)).css('display') == 'none')
+        {
+            $('tr.'+id).css('display', 'table-row');
+        }
+        else
+        {
+            $('tr.'+id).css('display', 'none');
+        }
+    },
+    activateTraining: function(ev)
+    {
+        var id = $(ev.target).attr('id');
+        var active = $(ev.target).data('active');
         
+        var data = {id:id, active:!active};
+        var training = new Training();
+        training.save(data,{
+           success: function(response){
+                Backbone.history.loadUrl();
+                return false;
+           } 
+        });
     }
 });
 
@@ -71,7 +98,6 @@ var TrainingEdit = Backbone.View.extend({
     el: $('.page'),
     render: function()
     {
-        console.log('t');
         var that = this;
         var template = _.template($("#training_edit_view").html(), {} );
         that.$el.html(template);

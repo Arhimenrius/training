@@ -1,19 +1,18 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Student Model
+ * Information Model
  *
- * @property Child $Child
  * @property Record $Record
  */
-class Student extends AppModel {
+class Information extends AppModel {
 
 /**
- * Display field
+ * Use table
  *
- * @var string
+ * @var mixed False or table name
  */
-	public $displayField = 'name';
+	public $useTable = 'informations';
 
 /**
  * Validation rules
@@ -21,9 +20,9 @@ class Student extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'name' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'student_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -31,9 +30,9 @@ class Student extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'surname' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'child_number' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -41,17 +40,7 @@ class Student extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'mobile_phone' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'telephone' => array(
+		'professions' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -71,22 +60,9 @@ class Student extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Child' => array(
-			'className' => 'Child',
-			'foreignKey' => 'student_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Record' => array(
 			'className' => 'Record',
-			'foreignKey' => 'student_id',
+			'foreignKey' => 'information_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
