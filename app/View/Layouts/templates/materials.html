@@ -1,7 +1,43 @@
 <script type="text/template" id="materials_list">
     <a href="#/new"><button class="btn btn-primary">Add material</button></a>
+    <h2 class="form-signin-heading">Materials</h2>
+    <% if(empty==false) 
+    { %>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(materials, function(material) { %>
+                <tr>
+                    <td><%= material.get('id') %></td>
+                    <td><%= material.get('name') %></td>
+                    <td><a href="#/edit/<%= material.id %>" class="btn btn-default">Edit</a></td>
+                    <td><button id="<%= material.id %>" class="btn btn-danger delete-material">Delete</button></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <% }
+    else
+    {%>
+        <h2>There is no materials to print</h2>
+    <%}%>
 </script>
 
 <script type="text/template" id="materials_prepare">
     <a href="#"><button class="btn btn-primary">Back</button></a>
+    <form class="save-material form-signin">
+        <legend><h2 class="form-signin-heading"><%= material ? 'Edit' : 'Create' %> material</h2></legend>
+        <input type="text" class="form-control" placeholder="Name of material" name="name" maxlength="50" required="required" value="<%= material ? material.get('name') : '' %>" /><br />
+        <% if(material){ %>
+            <input type="hidden" name="id" value="<%= material.id %>" />
+        <% } %>
+        <button type="submit" class="btn btn-lg btn-primary btn-block"><%= material ? 'Update' : 'Create' %></button>
+    </form>
 </script>

@@ -16,7 +16,22 @@ var MaterialList = Backbone.View.extend({
     },
     events:
     {
-
+        'click .delete-material': 'deleteMaterial'
+    },
+    deleteMaterial: function(ev)
+    {
+        if(confirm('Are you sure to delete this?'))
+        {
+            var id = $(ev.target).attr('id');
+            var material = new Material({id: id});
+            material.destroy({
+                success: function()
+                {
+                    Backbone.history.loadUrl();
+                    return false;
+                }
+            });
+        }
     }
 });
 var MaterialPrepare = Backbone.View.extend({
@@ -27,22 +42,38 @@ var MaterialPrepare = Backbone.View.extend({
         {
             var material = new Material({id:options.id});
             material.fetch({
-               success: function(response)
-               {
-                   var template = _.template($("#materials_prepare").html(), {materials: material} );
+               success: function(material){
+                   console.log(material);
+                    var template = _.template( $("#materials_prepare").html(), {material: material} );
                     that.$el.html(template);
-               },
+               } 
             });
         }
         else
         {
-            var template = _.template($("#materials_prepare").html(), {materials: null} );
+            var template = _.template($("#materials_prepare").html(), {material: null} );
             that.$el.html(template);
         }
     },
     events:
     {
-
+        'submit .save-material': 'saveMaterial'
+    },
+    saveMaterial: function(ev)
+    {
+        var materialDetails = $(ev.currentTarget).serializeObject();
+        var material = new Material();
+        material.save(materialDetails, {
+            success: function(response)
+            {
+                router.navigate("",  {trigger: true});
+            },
+            error: function()
+            {
+                displayError();
+            }
+        });
+        return false;
     }
 });
 

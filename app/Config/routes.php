@@ -36,7 +36,11 @@
         //controllers allowed to REST Mapping
         Router::mapResources('professions');
         Router::mapResources('trainings');
-        Router::mapResources('activitiess');
+        Router::mapResources('activities');
+        Router::mapResources('materials');
+        Router::mapResources('payments');
+        Router::mapResources('records');
+        Router::mapResources('reserveds');
         
         //prepare REST Mapping
         Router::resourceMap(array(

@@ -53,7 +53,7 @@ class Training extends AppModel {
 		'Activity' => array(
 			'className' => 'Activity',
 			'foreignKey' => 'training_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

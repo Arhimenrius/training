@@ -1,3 +1,3 @@
-var Materials = Backbone.Model.extend({
-    url: '/materials'
+var Material = Backbone.Model.extend({
+    urlRoot: '/materials'
 });

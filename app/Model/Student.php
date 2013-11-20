@@ -41,7 +41,7 @@ class Student extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'mobile_phone' => array(
+		'phone' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -50,10 +50,8 @@ class Student extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
-		'telephone' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+                        'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -71,19 +69,6 @@ class Student extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Child' => array(
-			'className' => 'Child',
-			'foreignKey' => 'student_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
 		'Record' => array(
 			'className' => 'Record',
 			'foreignKey' => 'student_id',

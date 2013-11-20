@@ -11,6 +11,10 @@
  * @author awojtys
  */
 class HomesController extends AppController {
+    
+    public function isAuthorized() {
+        return true;
+    }
     public function beforeFilter() 
     {
         parent::beforeFilter();

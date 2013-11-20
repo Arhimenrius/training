@@ -1,6 +1,8 @@
 <?php
 
+App::uses('RecordHelper', 'Lib');
 class RecordsController extends AppController{
+    public $uses = array('Material', 'Record', 'Profession');
     public function beforeFilter() 
     {
         parent::beforeFilter();
@@ -8,7 +10,8 @@ class RecordsController extends AppController{
     }
     public function viewall()
     {
-        
+        $this->set('materials', $this->Material->find('all'));
+        $this->set('professions', $this->Profession->find('all'));
     }
     
     public function index()
@@ -33,6 +36,8 @@ class RecordsController extends AppController{
     
     public function add()
     {
+        $record = new RecordHelper($this->request->data);
+        $record -> returnData();
         $this->autoRender = false;
     }
 

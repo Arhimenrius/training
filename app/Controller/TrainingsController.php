@@ -20,6 +20,11 @@ class TrainingsController extends AppController {
        // Default deny
        return false;
     }
+    public function beforeFilter() 
+    {
+        parent::beforeFilter();
+        $this->Auth->allow(array('index', 'view'));
+    }
     
     /**
      * Default page
@@ -60,25 +65,10 @@ class TrainingsController extends AppController {
     {
         $this->autoRender = false;
         $this->Training->create();
-        $date = strtotime($this->request->data['start_date']);
-        if($this->Training->save($this->request->data)){
-            $this->Activity->saveAll(
-                    array(
-                        array(
-                            'training_id' => $this->Training->id,
-                            'avaibility' => 15,
-                            'date' => date('Y-m-d', $date)
-                        ), 
-                        array(
-                            'training_id' => $this->Training->id,
-                            'avaibility' => 15,
-                            'date' => date('Y-m-d', $date+86400)
-                        ), 
-                        array(
-                            'training_id' => $this->Training->id,
-                            'avaibility' => 15,
-                            'date' => date('Y-m-d', $date+172800)
-            )));
+        $prepare = new TrainingHelper($this->request->data);
+        $data = $prepare->returnNew();
+        if($this->Training->saveAll($data)){
+            
             return json_encode($this->Training->id);
         }
         else{
@@ -137,7 +127,7 @@ class TrainingsController extends AppController {
     public function delete($id)
     {
         $this->autoRender = false;
-        if($this->Training->delete($id))
+        if($this->Training->delete($id, true))
         {
             return json_encode(true);
         }

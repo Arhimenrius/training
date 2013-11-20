@@ -433,3 +433,55 @@
     text-align: center;
     
 }
+
+.student-forms{
+    width:100%;
+}
+
+.student-form-lider{
+    text-align:center;
+    width:40%;
+    margin-bottom: 30px;
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:30px;
+}
+
+.student-form{
+    text-align:center;
+    width:20%;
+    float:left;
+    margin-bottom: 30px;
+    margin-right:2%;
+    margin-left:2%;
+    margin-top:30px;
+    height:200px;
+}
+
+.student-info{
+    text-align: center;
+    color:maroon;
+    font-weight: bold;
+}
+.child-info{
+    text-align: center;
+    color:maroon;
+    font-weight: bold;
+}
+.lider-info{
+    text-align: center;
+    color:maroon;
+    font-weight: bold;
+}
+
+.student-label{
+    text-align: center;
+}
+
+.if-card{
+    text-align: center;
+}
+
+.clear{
+    clear:both;
+}
