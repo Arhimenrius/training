@@ -1,6 +1,6 @@
 function validpriority()
 {
-    if(!($('#priority_1').val() == '' && $('#priority_2').val() == '' && $('#priority_3').val() == ''))
+    if($('#priority_1').val() != '' || $('#priority_2').val() != '' || $('#priority_3').val() != '')
     {
         if(!($('#priority_1').val() != '' && $('#priority_2').val() != '' && $('#priority_3').val() != ''))
         {
@@ -8,7 +8,7 @@ function validpriority()
             return false;
         }
     }
-    if(!($('#priority_4').val() == '' && $('#priority_5').val() == '' && $('#priority_6').val() == ''))
+    if($('#priority_4').val() != '' || $('#priority_5').val() != '' || $('#priority_6').val() != '')
     {
         if(!($('#priority_4').val() != '' && $('#priority_5').val() != '' && $('#priority_6').val() != ''))
         {
@@ -16,7 +16,7 @@ function validpriority()
             return false;
         }
     }
-    if(!($('#priority_7').val() == '' && $('#priority_8').val() == '' && $('#priority_9').val() == ''))
+    if($('#priority_7').val() != '' || $('#priority_8').val() != '' || $('#priority_9').val() != '')
     {
         if(!($('#priority_7').val() != '' && $('#priority_8').val() != '' && $('#priority_9').val() != ''))
         {
