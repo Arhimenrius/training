@@ -225,5 +225,83 @@
 </script>
 
 <script type="text/template" id="record-payment">
-    fdsfsdfsdf
+    <table class="table payment">
+        <thead>
+            <tr>
+                <td></td>
+                <td><h4>Value</h4></td>
+                <td><h4>Price for one</h4></td>
+                <td><h4>Price for all</h4></td>
+            </tr>        
+        </thead>
+        <tbody>
+            <tr>
+                <td class="payment_name"><h4>How many Students you recorded</h4></td>
+                <td><%= record.get('Information').student_number %></td>
+                <td>200</td>
+                <td><%= record.get('Information').student_number * 200 %></td>
+            </tr>        
+            <tr>
+                <td class="payment_name"><h4>How many Childs you recorded</h4></td>
+                <td><%= record.get('Information').child_number %></td>
+                <td>0</td>
+                <td><%= record.get('Information').child_number * 0%></td>
+            </tr>        
+            <tr>
+                <td colspan="4" class="payment_name"><h4>Selected materials:</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Value</td>
+                                <td>Price for one</td>
+                                <td>Price for all</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% var i = 1; _.each(record.get('Material'), function(material) { 
+                        %>
+                            <tr>
+                                <td><%= material.Material.name %></td>
+                                <td><%= record.get('Application')['material_'+i+'_number'] %></td>
+                                <td>10</td>
+                                <td><%= record.get('Application')['material_'+i+'_number']* 10 %></td>
+                            </tr>
+                        <% i++; }) %>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>        
+        </tbody>
+    </table>
+    <div class="text-center">
+        <h3>Final price: $<%= record.get('Payment').price %></h3>
+        <form method="post" action=" https://www.sandbox.paypal.com/cgi-bin/webscr">
+            <input type="hidden" name="cmd" value="_cart">
+            <input type="hidden" name="add" value="1">
+            <input type="hidden" name="business" value="arhimenrius@gmail.com">
+            <input type="hidden" name="item_name" value="<%= record.get('Training').name %>">
+            <input type="hidden" name="amount" value="<%= record.get('Payment').price %>">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="return" value="http://training.local/records/viewall#success/<%= id %>">
+            <input type="hidden" name="cancel_return" value="http://training.local/records/viewall#cancel/<%= id %>">
+            <input type="hidden" name="undefined_quantity" value="1">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+        </form>
+    </div>
+
+
 </script>
+
+<script type="text/template" id="record-cancel">
+    <h2 class="text-center">You canceled payment!<br /><br />
+    Click to come back to conferences list</h2>
+    <button class="btn btn-primary btn-lg btn-block return">Return to list</button>
+</script>
+
+<script type="text/template" id="record-success">
+    <h2 class="text-center">Your payment are accepted. See you again on conference!<br /><br />
+    Click to come back to conferences list</h2>
+    <button class="btn btn-primary btn-lg btn-block return">Return to list</button>
+</script>
+

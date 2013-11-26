@@ -39,6 +39,22 @@ class PaymentsController extends AppController{
     public function edit($id)
     {
         $this->autoRender = false;
+        if(!empty($this->request->data['payment_status']))
+        {
+            $payment = $this->Payment->findById($id);
+        
+            if($this->Payment->save($this->request->data)){
+                return json_encode(true);
+            }
+            else{
+                exit;
+            }
+
+            if (!$this->request->data) {
+                $this->request->data = $payment;
+            }
+        }
+  
     }
     
     public function delete($id)

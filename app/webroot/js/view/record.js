@@ -62,7 +62,6 @@ var RecordForm = Backbone.View.extend({
                         var template = _.template($("#record-form").html(), {training:training} );
                         that.$el.html(template);
                     }
-                  
                }
             });
         }
@@ -167,13 +166,128 @@ var RecordPayment = Backbone.View.extend({
     el: $('.page'),
     render: function(options){
         var that = this;
+        if(options.id)
+        {
+            var record = new Record({id:options.id});
+            record.fetch({
+                success: function(record)
+                {
+                    if(record.get('Payment').payment_status == 'Processing')
+                    {
+                        var template = _.template($("#record-payment").html(), {record:record, id:options.id} );
+                        that.$el.html(template);
+                    }
+                    else
+                    {
+                        router.navigate("", {trigger: true});
+                    }
+                    
+                }
+            });
+        }
+        else
+        {
+           router.navigate("", {trigger: true});
+        }
     },
     events:
     {
 
     }
 });
+var RecordCancel = Backbone.View.extend({
+    el: $('.page'),
+    render: function(options){
+        var that = this;
+        if(options.id)
+        {
+           var record = new Record({id:options.id});
+            record.fetch({
+                success: function(record)
+                {
+                    if(record.get('Payment').payment_status == 'Processing')
+                    {
+                        var payment = new Payment({id:record.get('Payment').id, payment_status:'Cancel'});
+                        payment.save({
+                            success: function(response)
+                            {
+                               
+                            }
+                        });
+                        var template = _.template($("#record-cancel").html(), {} );
+                        that.$el.html(template);
+                        
+                    }
+                    else
+                    {
+                        router.navigate("", {trigger: true});
+                    }
+                    
+                }
+            });
+        }
+        else
+        {
+           router.navigate("", {trigger: true});
+        }
+    },
+     events:
+    {
+        'click .return' : 'returnToHomepage'
+    },
+    returnToHomepage: function()
+    {
+        router.navigate("", {trigger: true});
+    }
+});
+var RecordSuccess = Backbone.View.extend({
+    el: $('.page'),
+    render: function(options){
+        var that = this;
+        if(options.id)
+        {
+           var record = new Record({id:options.id});
+            record.fetch({
+                success: function(record)
+                {
+                    if(record.get('Payment').payment_status == 'Processing')
+                    {
+                        var payment = new Payment({id:record.get('Payment').id, payment_status:'Success'});
+                        payment.save({
+                            success: function(response)
+                            {
+                               
+                            }
+                        });
+                        var template = _.template($("#record-success").html(), {} );
+                        that.$el.html(template);
+                        
+                    }
+                    else
+                    {
+                        router.navigate("", {trigger: true});
+                    }
+                    
+                }
+            });
+        }
+        else
+        {
+           router.navigate("", {trigger: true});
+        }
+    },
+    events:
+    {
+        'click .return' : 'returnToHomepage'
+    },
+    returnToHomepage: function()
+    {
+        router.navigate("", {trigger: true});
+    }
+});
 
 var recordList = new RecordList();
 var recordForm = new RecordForm();
 var recordPayment = new RecordPayment();
+var recordCancel = new RecordCancel();
+var recordSuccess = new RecordSuccess();

@@ -22,6 +22,14 @@ class RecordsController extends AppController{
     public function view($id)
     {
         $this->autoRender = false;
+        $record = $this->Record->findById($id);
+        $material = $this->Material->find('all', array(
+            'conditions' => array(
+                "Material.id" => array($record['Application']['material_1_id'], $record['Application']['material_2_id'], $record['Application']['material_3_id'], $record['Application']['material_4_id'], $record['Application']['material_5_id'])
+            )
+        ));
+        $record['Material'] = $material;
+        return json_encode($record);
     }
     
     public function edit($id)
@@ -54,8 +62,6 @@ class RecordsController extends AppController{
                 $this->Student->create();
                 if($this->Student->saveAll($students))
                 {
-                    
-                    
                     if(!empty($childs))
                     {
                         $this->Child->create();
@@ -83,7 +89,7 @@ class RecordsController extends AppController{
                     {
                         if($record->changeAvaibility() === true)
                         {
-                            return json_encode($this->request->data['training_id']);
+                            return json_encode($this->Record->id);
                         }
                         else
                         {
