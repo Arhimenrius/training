@@ -64,10 +64,10 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'arhi2.linuxpl.info',
-		'login' => 'arhi2_record',
-		'password' => 'record',
-		'database' => 'arhi2_record',
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => 'polcode',
+		'database' => 'training',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

@@ -3,11 +3,12 @@ App::uses('AppModel', 'Model');
 /**
  * Record Model
  *
- * @property PaymentLog $PaymentLog
  * @property Application $Application
- * @property Student $Student
- * @property Child $Child
  * @property Information $Information
+ * @property Training $Training
+ * @property Payment $Payment
+ * @property Child $Child
+ * @property Student $Student
  */
 class Record extends AppModel {
 
@@ -27,27 +28,27 @@ class Record extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'student_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'child_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'information_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'training_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'payment_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -62,21 +63,6 @@ class Record extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasOne associations
- *
- * @var array
- */
-	public $hasOne = array(
-		'PaymentLog' => array(
-			'className' => 'PaymentLog',
-			'foreignKey' => 'record_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
  * belongsTo associations
  *
  * @var array
@@ -89,26 +75,61 @@ class Record extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Student' => array(
-			'className' => 'Student',
-			'foreignKey' => 'student_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Child' => array(
-			'className' => 'Child',
-			'foreignKey' => 'child_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Information' => array(
 			'className' => 'Information',
 			'foreignKey' => 'information_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Training' => array(
+			'className' => 'Training',
+			'foreignKey' => 'training_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Payment' => array(
+			'className' => 'Payment',
+			'foreignKey' => 'payment_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Child' => array(
+			'className' => 'Child',
+			'foreignKey' => 'record_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Student' => array(
+			'className' => 'Student',
+			'foreignKey' => 'record_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
 }

@@ -133,13 +133,13 @@ var RecordForm = Backbone.View.extend({
             var recordDetails = $(ev.currentTarget).serializeObject();
             var record = new Record();
             record.save(recordDetails, {
-                success: function(response)
+                success: function(response, id)
                 {
-                    //router.navigate("#payment",  {trigger: true});
+                    router.navigate("#payment/"+id,  {trigger: true});
                 },
                 error: function(response, error)
                 {
-                    //router.navigate("#payment",  {trigger: true});
+                    displayError(error.responseText);
                 }
             });
         }

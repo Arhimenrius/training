@@ -11,13 +11,14 @@
  * @author awojtys
  */
 APP::import('Model', 'Activity');
+APP::import('Model', 'Record');
+APP::import('Model', 'Application');
+APP::import('Model', 'Information');
+APP::import('Model', 'Student');
+APP::import('Model', 'Child');
+APP::import('Model', 'Payment');
 class RecordHelper {
     protected $_data;
-    protected $_many_childs;
-    protected $_many_students;
-    protected $_child_to_student;
-    protected $_student_number;
-    protected $_child_number;
     protected $_default_keys = array(
         'material_id', 
         'material_value', 
@@ -26,6 +27,7 @@ class RecordHelper {
         'student_card',
         'student_name',
         'student_phone',
+        'student_email',
         'student_profession',
         'student_surname',
         'training_id'
@@ -42,6 +44,7 @@ class RecordHelper {
         'student_name',
         'student_surname',
         'student_phone',
+        'student_email',
         'student_profession',
         'child_name',
         'child_surname',
@@ -58,58 +61,111 @@ class RecordHelper {
     }
     
     /**
-     * Method to return prepared data
+     * Method to validated data and check avaibility
      */
-    public function returnData()
+    public function validData()
     {
         $this->_trimAll();
-        //validate data
-        $errors = array(
-            $this->_validateRequest(),
-            $this->_validateNumericInputs(),
-            $this->_validateRequired(),
-            $this->_validatePriorities(),
-            $this->_validateCard()
-        );
-       
-        foreach($errors as $error)
-        {
-            if($error !== true)
-            {
-                print_r($error);
-                return $error;
-            }
-        }
-        
-        //check students and childs
-        $this->_makeArrayFromStudents();
-        $this->_checkChilds();
-        $this->_manyChilds();
-        $this->_manyStudents();
-      
-        //check avaibility
         if($this->_check_avaibility() === false)
         {
             return 'We have not enought place for your group.';
         }
+        //validate data
+            if($this->_validateRequest() !== true)
+            {
+                return $this->_validateRequest();
+            }
+            if($this->_validateRequired() !== true)
+            {
+                return $this->_validateRequired();
+            }
+            if($this->_validateNumericInputs() !== true)
+            {
+                return $this->_validateNumericInputs();
+            }
+            if($this->_validatePriorities() !== true)
+            {
+                return $this->_validatePriorities();
+            }
+            if($this->_validateCard() !== true)
+            {
+                return $this->_validateCard();
+            }
+            if($this->_validateEmail() !== true)
+            {
+                return  $this->_validateEmail();
+            }
         
-        //prepare all data to send to database
-        $information = $this->_prepareInformation();
-        $application = $this->_prepareApplication();
-
-        
+        return true;
     }
     
+    /**
+     * Method to prepare data
+     */
+    public function prepareData()
+    {
+        //check students and childs
+        $this->_mergeChildData();
+        $this->_mergeStudentData();
+        $this->_checkChilds();
+    }
+    
+    /**
+     * Method check if training is avaibility
+     * 
+     * @return boolean 
+     */
     protected function _check_avaibility()
     {
         $activity = new Activity();
+        
         $avaibility = $activity->findByTrainingId($this->_data['training_id']);
-        if($avaibility['Activity']['avaibility'] < $this->_child_number + $this->_student_number)
+        if($avaibility['Activity']['avaibility'] <  $this->_primitiveStudentsNumber() + $this->_primitiveChildsNumber())
         {
             return false;
         }
     }
     
+    /**
+     * Method check how many students have
+     * 
+     * @return int Number of students
+     */
+    protected function _primitiveStudentsNumber()
+    {
+        if(is_array($this->_data['student_name']))
+        {
+            return count($this->_data['student_name']);
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    
+    /**
+     * Method check how many childs have
+     * 
+     * @return int Number of childs
+     */
+    protected function _primitiveChildsNumber()
+    {
+        if(array_key_exists('child_name', $this->_data))
+        {
+            if(is_array($this->_data['child_name']))
+            {
+                return count($this->_data['child_name']);
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
+    
+    /**
+     * Method delete whitespace from start and end of all variables
+     */
     protected function _trimAll()
     {
         foreach($this->_data as $keys => $value)
@@ -128,71 +184,107 @@ class RecordHelper {
         }
     }
     
-    protected function _makeArrayFromStudents()
-    {
-        if(!is_array($this->_data['student_name']))
+    /**
+     * Method prepared array with all students data from parts
+     */
+    protected function _mergeStudentData()
+    { 
+        if(is_array($this->_data['student_name']))
         {
-            $this->_data['student_name'] = array($this->_data['student_name']);
-            $this->_data['student_surname'] = array($this->_data['student_surname']);
+            $i = 0;
+            foreach($this->_data['student_name'] as $key => $name)
+            {
+                $this->_data['students'][$i]['name'] = $this->_data['student_name'][$key];
+                $this->_data['students'][$i]['surname'] = $this->_data['student_surname'][$key];
+                $i++;
+            }
+            unset($this->_data['student_name']);
+            unset($this->_data['student_surname']);
+        }
+        else
+        {
+            $this->_data['students'][0]['name'] = $this->_data['student_name'];
+            $this->_data['students'][0]['surname'] = $this->_data['student_surname'];
+            unset($this->_data['student_name']);
+            unset($this->_data['student_surname']);
         }
     }
     
-    protected function _manyChilds()
+    
+    /**
+     * Method prepared array with all childs data from parts
+     */
+    protected function _mergeChildData()
     {
+        
         if(array_key_exists('child_name', $this->_data))
         {
             if(is_array($this->_data['child_name']))
             {
-                $this->_child_number = count($this->_data['child_name']);
+                $i = 0;
+                foreach($this->_data['child_name'] as $key => $name)
+                {
+                    $this->_data['childs'][$i]['name'] = $this->_data['child_name'][$key];
+                    $this->_data['childs'][$i]['surname'] = $this->_data['child_surname'][$key];
+                    $this->_data['childs'][$i]['age'] = $this->_data['child_age'][$key];
+                    $i++;
+                }
+                unset($this->_data['child_name']);
+                unset($this->_data['child_surname']);
+                unset($this->_data['child_age']);
             }
             else
             {
-                $this->_child_number = 1;
+                $this->_data['childs'][0]['name'] = $this->_data['child_name'];
+                $this->_data['childs'][0]['surname'] = $this->_data['child_surname'];
+                $this->_data['childs'][0]['age'] = $this->_data['child_age'];
+                unset($this->_data['child_name']);
+                unset($this->_data['child_surname']);
+                unset($this->_data['child_age']);
             }
-        }
-        else
-        {
-            $this->_child_number = 0;
         }
     }
     
+    /**
+     * Method return number of childs
+     * 
+     * @return int Number of childs
+     */
+    protected function _manyChilds()
+    {
+        if(array_key_exists('child_name', $this->_data))
+        {
+            return count($this->_data['childs']);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    /**
+     * Method returned number of students
+     * 
+     * @return int Number of students 
+     */
     protected function _manyStudents()
     {
-        if(is_array($this->_data['student_name']))
-        {
-            $this->_student_number = count($this->_data['student_name']);
-        }
-        else
-        {
-            $this->_student_number = 1;
-        }
+        return count($this->_data['students']); 
     }
     
+    /**
+     * Method check if child is really child
+     */
     protected function _checkChilds()
     {
-        if(array_key_exists('child_age', $this->_data))
+        if(array_key_exists('childs', $this->_data))
         {
-            if(is_array($this->_data['child_age']))
+            foreach($this->_data['childs'] as $key => $value)
             {
-                for($i = 0; $i < count($this->_data['child_age']); $i++)
+                if($value['age'] > 11)
                 {
-                    if($this->_data['child_age'][$i] > 11)
-                    {
-                        array_push($this->_data['student_name'], $this->_data['child_name'][$i]);
-                        array_push($this->_data['student_surname'], $this->_data['child_surname'][$i]);
-                        unset($this->_data['child_name'][$i]);
-                        unset($this->_data['child_surname'][$i]);
-                    }
-                }
-            }
-            else 
-            {
-                if($this->_data['child_age'] > 11)
-                {
-                        array_push($this->_data['student_name'], $this->_data['child_name']);
-                        array_push($this->_data['student_surname'], $this->_data['child_surname']);
-                        unset($this->_data['child_name']);
-                        unset($this->_data['child_surname']);
+                    array_push($this->_data['students'], array('name' => $value['name'], 'surname' => $value['surname']));
+                    unset($this->_data['childs'][$key]);
                 }
             }
         }
@@ -329,9 +421,28 @@ class RecordHelper {
             return 'You have error with card!';
         }
         return true;
+
+    }
+    
+    protected function _validateEmail()
+    {
+        if (filter_var($this->_data['student_email'], FILTER_VALIDATE_EMAIL)) 
+        {
+            return true;
+        }
+        else
+        {
+            return 'You have error with card!';
+        }
         
+
     }
 
+    /**
+     * Method prepare list of professions of group lider
+     * 
+     * @return string return list of profession of group lider
+     */
     protected function _prepareProfessions()
     {
         $id = '';
@@ -349,38 +460,161 @@ class RecordHelper {
         }
     }
     
-    protected function _prepareStudents()
+    /**
+     * Method return studends data
+     * 
+     * @return array Array with all students
+     */
+    public function returnPayment()
+    {
+        $price_for_students = count($this->_manyStudents()) * 200;
+        $price_for_materials = 0;
+        foreach($this->_data['material_value'] as $value)
+        {
+            $price_for_materials = $price_for_materials + ($value*10);
+        }
+        $price = $price_for_materials+$price_for_students;
+        return array('payment_status' => 'Processing', 'price' => $price);
+    }
+    
+    public function returnStudents($record_id)
+    {
+        foreach($this->_data['students'] as $key => $student)
+        {
+            $this->_data['students'][$key]['record_id'] = $record_id;
+        }
+        return $this->_data['students'];
+    }
+    
+    /**
+     * Method return childs data
+     * 
+     * @return array Array with all childs
+     */
+    public function returnChilds($record_id)
+    {
+        if(array_key_exists('childs', $this->_data))
+        {
+            foreach($this->_data['childs'] as $key => $student)
+            {
+                $this->_data['childs'][$key]['record_id'] = $record_id;
+            }
+            return $this->_data['childs'];
+        }
+    }
+    
+    public function prepareTraining()
     {
         
     }
     
-    protected function _prepareChilds()
+    /**
+     * Method prepare all data of informations
+     * 
+     * @return mix Data for information
+     */
+    public function returnInformation()
     {
-        
-    }
-    
-    protected function _prepareTraining()
-    {
-        
-    }
-    
-    protected function _prepareInformation()
-    {
-        $data = array('Information' => array('student_number' => $this->_student_number, 'child_number' => $this->_child_number, 'professions' => $this->_prepareProfessions()));
+        $data = array(
+                'student_number' => $this->_manyStudents(), 
+                'child_number' => $this->_manyChilds(), 
+                'professions' => $this->_prepareProfessions(), 
+                'phone' => $this->_data['student_phone'], 
+                'email' => $this->_data['student_email'],
+                'attention' => $this->_data['student_attention'], 
+                'card' => $this->_data['student_card']
+        );
         return $data;
     }
     
-    protected function _prepareApplication()
+    /**
+     * Method return studends data
+     * 
+     * @return array Array with all student
+     */
+    public function returnApplication()
     {
-        $data['Application'] = array();
-        print_r($this->_data);
+        $data = array();
         foreach($this->_data['priority'] as $key => $priority)
         {
-            $data['Application']['priority_activity_'.$key] = $priority;
+            $key++;
+            if($priority == '')
+            {
+                $priority = 0;
+            }
+            $data['priority_activity_'.$key] = $priority;
         }
-        print_r($data);
+    
+        foreach($this->_data['material_id'] as $key => $id)
+        {
+            $key++;
+            $data['material_'. $key .'_id'] = $id;
+        }
+        foreach($this->_data['material_value'] as $key => $value)
+        { 
+           $key++;
+            $data['material_'. $key .'_number'] = $value;
+        }
+        return $data;
     }
     
+    public function changeAvaibility()
+    {
+        $activity = new Activity();
+        
+        $avaibility = $activity->findAllByTrainingId($this->_data['training_id']);
+        foreach ($avaibility as $key => $value)
+        {
+            $avaibility[$key]['Activity']['avaibility'] = $value['Activity']['avaibility'] - $this->_manyStudents() - $this->_manyChilds();
+        }
+        if($activity->saveAll($avaibility))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function deleteRecord($record_id)
+    {
+        $record = new Record();
+        $record_data = $record->findById($record_id);
+        $record -> delete($record_id, false);
+        
+        //To repair. Problem with delate application
+        $application_id = $record_data['Record']['application_id'];
+        $application = new Application();
+        $application ->delete($application_id, false);
+       
+        $information_id = $record_data['Record']['information_id'];
+        $information = new Information();
+        $information->delete($information_id, false);
+        
+        $payment_id = $record_data['Record']['payment_id'];
+        $payment = new Payment();
+        $payment -> delete($payment_id, false);               
+        
+        $student = new Student();
+        $student_data = $student -> findAllByRecordId($record_id);
+        
+        foreach($student_data as $key => $value)
+        {
+            $student->delete($value['Student']['id'], false);
+        }
+        
+        $child = new Child();
+        $child_data = $child -> findAllByRecordId($record_id);
+        if(!empty($child_data))
+        {
+            foreach ($child_data as $key => $value)
+            {
+                $child->delete($value['Child']['id'], false);
+            }
+        }
+        
+    }
 }
 
 ?>

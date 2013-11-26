@@ -1,11 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * PaymentLog Model
+ * Payment Model
  *
  * @property Record $Record
  */
-class PaymentLog extends AppModel {
+class Payment extends AppModel {
 
 /**
  * Validation rules
@@ -13,16 +13,6 @@ class PaymentLog extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'record_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'payment_status' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
@@ -48,14 +38,14 @@ class PaymentLog extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * belongsTo associations
+ * hasOne associations
  *
  * @var array
  */
-	public $belongsTo = array(
+	public $hasOne = array(
 		'Record' => array(
 			'className' => 'Record',
-			'foreignKey' => 'record_id',
+			'foreignKey' => 'payment_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
