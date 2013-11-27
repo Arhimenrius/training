@@ -61,7 +61,7 @@
  */
 class DATABASE_CONFIG {
 
-	public $default2 = array(
+	public $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
@@ -71,7 +71,7 @@ class DATABASE_CONFIG {
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
-	public $default1 = array(
+	public $default2 = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'arhi2.linuxpl.info',

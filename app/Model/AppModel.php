@@ -32,4 +32,17 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+    public $useDbConfig = '';
+    
+    public function __construct($id = false, $table = null, $ds = null) {
+        parent::__construct($id, $table, $ds);
+        if($_SERVER['HTTP_HOST'] == 'training.local' )
+        {
+            $this->useDbConfig = 'default';
+        }
+        else
+        {
+            $this->useDbConfig = 'default2';
+        }
+    }
 }
