@@ -23,7 +23,7 @@ class AuthsController extends AppController {
         
         if($this->Auth->user('id') != null && $this->action == 'login')
         {
-            $this->redirect('/trainings');
+            $this->redirect('/homes/index');
         }
         
     }
@@ -65,14 +65,22 @@ class AuthsController extends AppController {
     
     public function register()
     {
-        if ($this->request->is('post')) {
-            $this->Admin->create();
-            var_dump($this->request->data);
-            if ($this->Admin->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                return $this->redirect(array('action' => 'login'));
+        $check = $this->Admin->find('first');
+        if(empty($check))
+        {
+            if ($this->request->is('post')) {
+                $this->Admin->create();
+                var_dump($this->request->data);
+                if ($this->Admin->save($this->request->data)) {
+                    $this->Session->setFlash(__('The user has been saved'));
+                    return $this->redirect(array('action' => 'login'));
+                }
+                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
             }
-            $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+        }
+        else
+        {
+            $this->redirect('/homes/index');
         }
     }
     
