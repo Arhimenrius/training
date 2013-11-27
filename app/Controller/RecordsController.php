@@ -41,9 +41,21 @@ class RecordsController extends AppController{
         //load more data if admin looking in payment logs
         if(!empty($_GET['logs']))
         {
+            $professions_id = explode(',', $record['Information']['professions']);
+            
+            if(count($professions_id) != 1)
+            {
+                array_pop($professions_id);
+            }
+            $profession = $this->Profession->find('all', array(
+                'conditions' => array(
+                    "Profession.id" => $professions_id
+                )
+            ));
             $activity = $this->Activity->findAllByTrainingId($record['Training']['id'], array('contain' => false));
             $student = $this->Student->findAllByRecordId($record['Record']['id'], array('contain' => false));
             $child = $this->Child->findAllByRecordId($record['Record']['id'], array('contain' => false));
+            $record['Professions'] = $profession;
             $record['Activities'] = $activity;
             $record['Students'] = $student;
             $record['Childs'] = $child;

@@ -65,6 +65,14 @@
                 <td><h1 class="label label-default"><%= record.get('Students')[0]['Student'].surname %></h1></td>
             </tr>
             <tr>
+                <td>Group lider profession</td>
+                <td>
+                    <% _.each(record.get('Professions'), function(profession) { %>
+                        <h1 class="label label-default"><%= profession.Profession.name %></h1>
+                    <% }) %>
+                </td>
+            </tr>
+            <tr>
                 <td>E-mail</td>
                 <td><h1 class="label label-default"><%= record.get('Information').email %></h1></td>
             </tr>
