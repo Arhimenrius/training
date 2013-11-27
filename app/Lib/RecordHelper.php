@@ -252,7 +252,7 @@ class RecordHelper {
      */
     protected function _manyChilds()
     {
-        if(array_key_exists('child_name', $this->_data))
+        if(array_key_exists('childs', $this->_data))
         {
             return count($this->_data['childs']);
         }
@@ -467,7 +467,7 @@ class RecordHelper {
      */
     public function returnPayment()
     {
-        $price_for_students = count($this->_manyStudents()) * 200;
+        $price_for_students = $this->_manyStudents() * 200;
         $price_for_materials = 0;
         foreach($this->_data['material_value'] as $value)
         {

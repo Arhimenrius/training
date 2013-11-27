@@ -134,7 +134,7 @@ var RecordForm = Backbone.View.extend({
             record.save(recordDetails, {
                 success: function(response, id)
                 {
-                    router.navigate("#payment/"+id,  {trigger: true});
+                    /*router.navigate("#payment/"+id,  {trigger: true});*/
                 },
                 error: function(response, error)
                 {
