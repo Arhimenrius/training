@@ -1,0 +1,193 @@
+<script type="text/template" id="payments-list">
+    <h1>Payment logs</h1>
+    
+    <% if(empty == false) { %>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Conference name</td>
+                <td>Start date</td>
+                <td>Price</td>
+                <td>Payment status</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(records, function(record) { %>
+                <tr>
+                    <td><%= record.get('Payment').id %></td>
+                    <td><%= record.get('Training').name %></td>
+                    <td><%= record.get('Training').start_date %></td>
+                    <td>$<%= record.get('Payment').price %></td>
+                    <td><%= record.get('Payment').payment_status %></td>
+                    <td><a href="#details/<%= record.get('Record').id %>"><button class="btn btn-primary view-details">View Details</button></a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <% }else{ %>
+        <h2>Payment logs are empty.</h2>
+    <% } %>
+</script>
+
+<script type="text/template" id="payment-details">
+    <a href="#"><button class="btn btn-primary">Back</button></a>
+    <h2>Activities</h2>
+    <div class="text-center main-info">
+        <h3>Price</h3>
+        <h1 class="label label-primary">$<%= record.get('Payment').price %></h1>
+        <h3>Payment Status</h3>
+        <h1 class="label <% if(record.get('Payment').payment_status == 'Cancel') { %>label-danger<%}%><% if(record.get('Payment').payment_status == 'Processing') { %>label-warning<%}%><% if(record.get('Payment').payment_status == 'Success') { %>label-success<%}%>"><%= record.get('Payment').payment_status %></h1>
+    </div>
+    <button class="main btn btn-default">Show Main Informations</button>
+    <table class="table main " style="display:none;">
+        <thead>
+            <tr>
+                <td>Information name</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Conference name</td>
+                <td><h1 class="label label-default"><%= record.get('Training').name %></h1></td>
+            </tr>
+            <tr>
+                <td>Conference date</td>
+                <td><h1 class="label label-default"><%= record.get('Training').start_date %></h1></td>
+            </tr>
+            <tr>
+                <td>Group lider name</td>
+                <td><h1 class="label label-default"><%= record.get('Students')[0]['Student'].name %></h1></td>
+            </tr>
+            <tr>
+                <td>Group lider surname</td>
+                <td><h1 class="label label-default"><%= record.get('Students')[0]['Student'].surname %></h1></td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td><h1 class="label label-default"><%= record.get('Information').email %></h1></td>
+            </tr>
+            <tr>
+                <td>Telephone</td>
+                <td><h1 class="label label-default"><%= record.get('Information').phone %></h1></td>
+            </tr>
+            <tr>
+                <td>Group size</td>
+                <td><h1 class="label label-default"><%= parseInt(record.get('Information').student_number) + parseInt(record.get('Information').child_number) %></h1></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    
+    <button class="activities btn btn-default">Show Activities</button>
+    <table class="table activities" style="display:none;">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Date</td>
+                <td>Start time</td>
+                <td>End time</td>
+                <td>Priority</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+            var i = 1;
+            var day = 1;
+            var number = 1;
+            _.each(record.get('Activities'), function(activity) {
+            if(i == 1)
+            {
+            %>
+                <tr>
+                    <td colspan="5"><h2>Day <%= day %></h2></td>
+                </tr>
+            <%    
+            }
+            %>
+            <tr>
+                <td><%= activity.Activity.name %></td>
+                <td><%= activity.Activity.date %></td>
+                <td><%= activity.Activity.time_start %></td>
+                <td><%= activity.Activity.time_end %></td>
+                <td><%= record.get('Application')['priority_activity_'+number] %></td>
+            </tr>
+            <% 
+            i++;
+            number++;
+            if(i==4)
+            {
+                i=1;
+                day++;
+            }
+            }) %>
+        </tbody>
+    </table>
+    
+    <hr />
+    
+    <button class="materials btn btn-default">Show materials</button>
+    <table class="table materials" style="display:none;">
+        <thead>
+            <tr>
+                <td>Material name</td>
+                <td>Material Value</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% i=1; _.each(record.get('Material'), function(material) { %>
+            <tr>
+                <td><%= material.Material.name %></td>
+                <td><%= record.get('Application')['material_'+i+'_number'] %></td>
+            </tr>
+            <% i++ }) %>
+        </tbody>
+    </table>
+    
+    <hr />
+    
+    <button class="students btn btn-default">Show students</button>
+    <table class="table students" style="display:none;">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Surname</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(record.get('Students'), function(student) { %>
+            <tr>
+                <td><%= student.Student.id %></td>
+                <td><%= student.Student.name %></td>
+                <td><%= student.Student.surname %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    
+    <hr />
+    
+    <button class="childs btn btn-default">Show childs</button>
+    <table class="table childs" style="display:none;">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Surname</td>
+                <td>Age</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.each(record.get('Childs'), function(child) { %>
+            <tr>
+                <td><%= child.Child.id %></td>
+                <td><%= child.Child.name %></td>
+                <td><%= child.Child.surname %></td>
+                <td><%= child.Child.age %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</script>

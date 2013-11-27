@@ -1,6 +1,6 @@
 <script type="text/template" id="training_list">
-  <a href="#/new" class="btn btn-primary">Add training</a>
-  <h2 class="form-signin-heading">Trainings</h2>
+  <a href="#/new" class="btn btn-primary">Add Conference</a>
+  <h2 class="form-signin-heading">Conferences</h2>
   <% if(empty == false)
   { %>
   <table class="table table-striped">
@@ -56,14 +56,14 @@
   <% }
     else
     {%>
-        <h2>There is no trainings to print</h2>
+        <h2>There is no conferences to print</h2>
     <%}%>
 </script>
 
 <script type="text/template" id="training_add_form">
   <a href="#" class="btn btn-primary">Back</a>
     <form class="add-training form-signin">
-        <legend><h2 class="form-signin-heading">Create new training</h2></legend>
+        <legend><h2 class="form-signin-heading">Create new conference</h2></legend>
         <input type="text" maxLength="255" required name="name" placeholder="Name" class="form-control" />
         <input type="text" name="start_date" required placeholder="Start date" class="form-control" id="datepick"/><br />
         <button type="submit" class="btn btn-primary btn-lg btn-block" >Create</button>

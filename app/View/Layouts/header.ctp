@@ -57,15 +57,15 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
                 <?php if($this->Session->read('Auth.User') != null)
                 {
                     ?>
-                    <li><?php echo $this->Html->link('Trainings', array('controller' => 'trainings', 'action' => 'viewall')); ?></li>
+                    <li><?php echo $this->Html->link('Conferences', array('controller' => 'trainings', 'action' => 'viewall')); ?></li>
                     <li><?php echo $this->Html->link('Professions', array('controller' => 'professions', 'action' => 'viewall')); ?></li>
                     <li><?php echo $this->Html->link('Materials', array('controller' => 'materials', 'action' => 'viewall')); ?></li>
-                    <li><?php echo $this->Html->link('Payments', array('controller' => 'payments', 'action' => 'viewall')); ?></li>
+                    <li><?php echo $this->Html->link('Payment logs', array('controller' => 'payments', 'action' => 'viewall')); ?></li>
                     <li><a href="#">|</a></li>
                     <?php
                 }
                 ?>
-                <li><?php echo $this->Html->link('Record for trainings', array('controller' => 'records', 'action' => 'viewall')); ?></li>
+                <li><?php echo $this->Html->link('Record for conference', array('controller' => 'records', 'action' => 'viewall')); ?></li>
                 <li><?php echo $this->Html->link('Contact', array('controller' => 'homes', 'action' => 'contact')); ?></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -43,7 +43,6 @@ var MaterialPrepare = Backbone.View.extend({
             var material = new Material({id:options.id});
             material.fetch({
                success: function(material){
-                   console.log(material);
                     var template = _.template( $("#materials_prepare").html(), {material: material} );
                     that.$el.html(template);
                } 

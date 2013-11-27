@@ -474,7 +474,7 @@ class RecordHelper {
             $price_for_materials = $price_for_materials + ($value*10);
         }
         $price = $price_for_materials+$price_for_students;
-        return array('payment_status' => 'Processing', 'price' => $price);
+        return array('payment_status' => 'Processing', 'price' => $price, 'comment' => '');
     }
     
     public function returnStudents($record_id)

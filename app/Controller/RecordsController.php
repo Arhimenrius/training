@@ -2,7 +2,7 @@
 
 App::uses('RecordHelper', 'Lib');
 class RecordsController extends AppController{
-    public $uses = array('Material', 'Record', 'Profession', 'Payment', 'Student', 'Child');
+    public $uses = array('Material', 'Record', 'Profession', 'Payment', 'Student', 'Child', 'Activity');
     public function beforeFilter() 
     {
         parent::beforeFilter();
@@ -17,6 +17,15 @@ class RecordsController extends AppController{
     public function index()
     {
         $this->autoRender = false;
+        $records = $this->Record->find('all');
+        if(!empty($records))
+        {
+            return json_encode($records);            
+        }
+        else
+        {
+            exit;
+        }
     }
     
     public function view($id)
@@ -29,6 +38,16 @@ class RecordsController extends AppController{
             )
         ));
         $record['Material'] = $material;
+        //load more data if admin looking in payment logs
+        if(!empty($_GET['logs']))
+        {
+            $activity = $this->Activity->findAllByTrainingId($record['Training']['id'], array('contain' => false));
+            $student = $this->Student->findAllByRecordId($record['Record']['id'], array('contain' => false));
+            $child = $this->Child->findAllByRecordId($record['Record']['id'], array('contain' => false));
+            $record['Activities'] = $activity;
+            $record['Students'] = $student;
+            $record['Childs'] = $child;
+        }
         return json_encode($record);
     }
     
