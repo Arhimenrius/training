@@ -61,13 +61,23 @@
  */
 class DATABASE_CONFIG {
 
-	public $default = array(
+	public $default2 = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => 'polcode',
 		'database' => 'training',
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
+	public $default1 = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'arhi2.linuxpl.info',
+		'login' => 'arhi2_record',
+		'password' => 'record',
+		'database' => 'arhi2_record',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
